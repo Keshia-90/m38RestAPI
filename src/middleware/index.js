@@ -1,4 +1,6 @@
 const bcrypt  = require("bcryptjs");
+const jwt = require ("jsonwebtoken");
+const User =require("../user/model");
 
 exports.hashPass = async (req, res, next) => {
     try {
@@ -13,3 +15,34 @@ exports.hashPass = async (req, res, next) => {
     }
 };
 
+exports.comparePass = async (req, res, next) => {
+    try {
+        req.user = await User.findOne({username: req.body.username});
+        // const match = await bcrypt.compare(req.body.password, req.user.password);
+        if (await bcrypt.compare(req.body.password, req.user.password)) {
+            next();
+        } else {
+            throw new Error("Incorrect Credentials");
+        }
+    } catch (error) {
+        console.log(error);
+        res.send({error});
+    }
+};
+
+exports.tokenCheck = async (req, res, next) => {
+    try {
+        // const token = req.header("Authorization")
+        // console.log(token);//logs token
+        const decodedToken = jwt.verify(req.header("Authorization"), process.env.SECRET);
+        // console.log(decodedToken);
+        req.user = await User.findById(decodedToken.id);
+        // console.log(user);
+        // req.user = user
+        // console.log(req.user)
+        next();
+    } catch (error) {
+    console.log(error);
+    res.send({ error });
+    }
+};
