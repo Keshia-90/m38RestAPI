@@ -20,6 +20,7 @@ exports.login = async (req, res) => {
     if (!req.user) {
         throw new Error("Incorrect credentials");
     } else {
+        console.log("Login in successful")
         res.send({ user: req.user });
     }
     } catch (error) {
@@ -42,10 +43,9 @@ exports.listUser = async (req, res) => {
     }
 };
 
-
 exports.deleteOne = async (req, res) => {
     try {
-    const user = await User.deleteOne({username:req.params.username});
+    const user = await User.findOneAndDelete({ username:req.params.username });
     res.send({user});
     } catch (error) {
     console.log(error);
@@ -67,3 +67,12 @@ exports.findAll = async (req, res) => {
     }
 };
 
+exports.updateEmail = async (req, res) => {
+    try {
+    const user = await User.findOneAndUpdate({username:req.params.username});
+    res.send({user});
+    } catch (error) {
+    console.log(error);
+    res.send({ error });
+    }
+};
