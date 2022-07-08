@@ -1,5 +1,5 @@
 const { Router } = require("express"); //import Router method only from express
-const { signUp, login, deleteOne, listUser, findAll } = require("./controllers"); //import only signUp from controllers file
+const { signUp, login, deleteOne, listUser, findAll, updateUser } = require("./controllers"); //import only signUp from controllers file
 const { hashPass, comparePass,tokenCheck } = require("../middleware");
 const userRouter = Router(); //create a router that can have endpoints added to it
 
@@ -9,6 +9,7 @@ userRouter.get("/token", tokenCheck, login);
 userRouter.get("/user/:username", listUser);//params added
 userRouter.delete("/user/:username", deleteOne);
 userRouter.get("/user", findAll);
+userRouter.put("/user/:username", comparePass, updateUser);
 
 
 module.exports = userRouter;

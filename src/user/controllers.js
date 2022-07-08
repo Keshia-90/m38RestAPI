@@ -67,12 +67,18 @@ exports.findAll = async (req, res) => {
     }
 };
 
-exports.updateEmail = async (req, res) => {
+
+//similar to user login
+exports.updateUser = async (req, res) => {
     try {
-    const user = await User.findOneAndUpdate({username:req.params.username});
-    res.send({user});
-    } catch (error) {
-    console.log(error);
-    res.send({ error });
-    }
+    if (!req.user) {
+        throw new Error("Incorrect credentials");
+    } else {
+        const user = await User.updateOne({ username: req.body.username },{ email: req.body.newEmail},{ password: req.user.newPassword });//need to have new email address and new p.word under current ones
+			res.send({ user });
+		}
+	} catch (error) {
+		console.log(error);
+		res.send({ error });
+	}
 };
