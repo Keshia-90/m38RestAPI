@@ -69,12 +69,29 @@ exports.findAll = async (req, res) => {
 
 
 //similar to user login
-exports.updateUser = async (req, res) => {
+// exports.updateUser = async (req, res) => {
+//     try {
+//     const result = await User.updateOne(
+//         req.body.filterObj,
+//         req.body.updateObj
+//     );
+//     if (result.modifiedCount > 0) {
+//         res.status(200).send({ msg: "Successfully Updated" });
+//     } else {
+//         throw new Error({ msg: "Something went wrong" });
+//     }
+//     } catch (error) {
+//     console.log(error);
+//     res.send({ error });
+//     }
+// };
+
+exports.updateEmail = async (req, res) => {
     try {
     if (!req.user) {
         throw new Error("Incorrect credentials");
     } else {
-        const user = await User.updateOne({ username: req.body.username },{ email: req.body.newEmail},{ password: req.user.newPassword });//need to have new email address and new p.word under current ones
+        const user = await User.findOneAndUpdate({ username: req.body.username },{ email: req.body.newEmail});//need to have new email address under current one need password to change
 			res.send({ user });
 		}
 	} catch (error) {
