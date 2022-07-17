@@ -52,6 +52,15 @@ exports.deleteOne = async (req, res) => {
     res.send({ error });
     }
 };
+// exports.deleteOne = async (req, res) => {
+//     try {
+//     const user = await User.findOneAndDelete({ password:req.params.password });
+//     res.send({user});
+//     } catch (error) {
+//     console.log(error);
+//     res.send({ error });
+//     }
+// };
 
 exports.findAll = async (req, res) => {
     try {

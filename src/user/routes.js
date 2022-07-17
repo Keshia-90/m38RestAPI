@@ -7,7 +7,7 @@ userRouter.post("/user", hashPass, signUp); //defining a post request on /user p
 userRouter.post("/login", comparePass, login); //defining a post request on /login path, that calls the login controller
 userRouter.get("/token", tokenCheck, login);
 userRouter.get("/user/:username", listUser);//params added
-userRouter.delete("/user/:username", deleteOne);
+userRouter.delete("/user/:username", comparePass,deleteOne);
 userRouter.get("/user", findAll);
 userRouter.put("/user/:username", comparePass, updateEmail);
 
